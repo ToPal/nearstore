@@ -47,7 +47,33 @@ function getGoods(companyID, callback) {
     });
 }
 
+function order(_goods, callback) {
+    let goods = Array.isArray(_goods) ? _goods : [_goods];
+    if (goods.length == 0) {
+        callback('empty order');
+    }
+    let order = {};
+    order.retailerID = new mongo.ObjectID(goods[0].retailerID);
+    order.goods = goods.map(g => new mongo.ObjectID(g.goodID));
+    order.pin = Math.floor(Math.random() * 10000);
+    let db = null;
+    async.waterfall([
+        cb => mongo.mongo_connect(cb),
+        (_db, cb) => {
+            db = _db;
+            let usersCollection = db.collection('orders');
+            usersCollection.insertOne(order, cb);
+        }
+    ], (err) => {
+        if (!db) return callback(err);
+        db.close(() => {
+            callback(err, order.pin)
+        });
+    });
+}
+
 module.exports = {
     find,
-    getGoods
-}
+    getGoods,
+    order
+};

@@ -36,7 +36,10 @@ function order(req, res) {
     if (!req.query.goods){
         return res.json({error: 'missing goods', result: false});
     }
-    return res.send("OK!");
+    model.order(req.query.goods, (err, pin) => {
+        if (err) res.json({error: 'DB error', result: false});
+        return res.json({error: false, result: pin});
+    });
 }
 
 module.exports = {
