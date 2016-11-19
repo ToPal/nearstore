@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "PiN",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "telegram-node-bot": "^4.0.3"
+  }
 }
