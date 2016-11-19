@@ -49,7 +49,21 @@ function accomplishOrder(req, res) {
     if (!req.query.orderID || !req.query.username || !req.query.password) {
         return res.json({error: 'missing username, password or order ID', result: false});
     }
-    return res.send("OK!");
+    model.getRetailer(req.query.username, req.query.password, (err, retailer) => {
+        if (err){
+            console.log(err);
+            return res.json({error: 'DB error', result: false});
+        }
+        if (!retailer) return res.json({error: 'invalid username or password', result: false});
+        model.accomplishOrder(retailer, req.query.orderID, (err, updateCount) => {
+            if (err){
+                console.log(err);
+                return res.json({error: 'DB error', result: false});
+            }
+            if (updateCount != 1) return res.json({error: 'Wrong order ID', result: false});
+            return res.json({error: false, result: true});
+        });
+    });
 }
 
 function getOrders(req, res) {

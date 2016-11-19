@@ -91,10 +91,27 @@ function getOrders(retailer, callback) {
     });
 }
 
+function accomplishOrder(retailer, order, callback) {
+    let db = null;
+    async.waterfall([
+        cb => mongo.mongo_connect(cb),
+        (_db, cb) => {
+            db = _db;
+            let collection = db.collection('orders');
+            collection.updateOne({_id: new mongo.ObjectID(order), retailerID: retailer._id},
+                {$set: {complete: true}}, cb);
+        }
+    ], (err, res) => {
+        if (db) db.close();
+        callback(err, res.matchedCount);
+    });
+}
+
 module.exports = {
     addCompany,
     getUserName,
     getRetailer,
     addGoods,
-    getOrders
+    getOrders,
+    accomplishOrder
 }
