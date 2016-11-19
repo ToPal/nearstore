@@ -9,7 +9,8 @@ class Controller extends TelegramBaseController {
     handle($){
         if ($.message.text == '/start') return $.sendMessage(
             'Hello, I am Near Store bot!\n' +
-            'You can use me to buy something in the store on your way!');
+            'You can use me to buy something in the store on your way.\n' +
+            'To do this just send me your location!');
         if ($.message.location == null) return $.sendMessage(
             'Please send me your current location and I\'ll find something for you!');
         let location = $.message.location;
