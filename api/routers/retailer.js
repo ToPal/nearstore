@@ -20,7 +20,7 @@ function register(req, res) {
                 console.log(err);
                 return res.json({error: 'DB error', result: false})
             }
-            return res.json({error: false, result: true})
+            return auth(req, res);
         })
     });
 }

@@ -10,6 +10,8 @@
   "author": "PiN",
   "license": "ISC",
   "dependencies": {
+    "mongodb": "^2.2.11",
+    "request": "^2.79.0",
     "telegram-node-bot": "^4.0.3"
   }
 }

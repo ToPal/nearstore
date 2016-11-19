@@ -2,9 +2,9 @@
 
 const Telegram = require('telegram-node-bot');
 const config = require('./config.json');
-const AuthController = require('./router/AuthController');
+const Controller = require('./router/Controller');
 
-const authController = new AuthController();
+const controller = new Controller();
 const tg = new Telegram.Telegram(config.bot_token);
 
-tg.router.any(authController);
+tg.router.any(controller);
