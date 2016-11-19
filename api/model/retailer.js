@@ -74,9 +74,27 @@ function addGoods(retailer, _goods, callback) {
     ], callback);
 }
 
+function getOrders(retailer, callback) {
+    let db = null;
+    async.waterfall([
+        cb => mongo.mongo_connect(cb),
+        (_db, cb) => {
+            db = _db;
+            let usersCollection = db.collection('orders');
+            usersCollection.find({retailerID: new mongo.ObjectID(retailer._id)}).toArray(cb);
+        }
+    ], (err, object) => {
+        if (!db) return callback(err);
+        db.close(() => {
+            callback(err, (object) ? object : undefined)
+        });
+    });
+}
+
 module.exports = {
     addCompany,
     getUserName,
     getRetailer,
-    addGoods
+    addGoods,
+    getOrders
 }

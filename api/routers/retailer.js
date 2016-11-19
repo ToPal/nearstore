@@ -52,8 +52,29 @@ function accomplishOrder(req, res) {
     return res.send("OK!");
 }
 
+function getOrders(req, res) {
+    if (!req.query.username || !req.query.password) {
+        return res.json({error: 'missing username or password', result: false});
+    }
+    model.getRetailer(req.query.username, req.query.password, (err, retailer) => {
+        if (err){
+            console.log(err);
+            return res.json({error: 'DB error', result: false});
+        }
+        if (!retailer) return res.json({error: 'invalid username or password', result: false});
+        model.getOrders(retailer, (err, orders) => {
+            if (err){
+                console.log(err);
+                return res.json({error: 'DB error', result: false});
+            }
+            return res.json({error: false, result: orders});
+        });
+    });
+}
+
 module.exports = {
     register,
     addGoods,
-    accomplishOrder
+    accomplishOrder,
+    getOrders
 };
