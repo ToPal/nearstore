@@ -9,6 +9,8 @@
   "author": "PiN",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0"
+    "async": "^2.1.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11"
   }
 }
