@@ -11,7 +11,8 @@ function addCompany(username, password, coordinates, company, callback) {
             usersCollection.insertOne({
                 username: username,
                 password: password,
-                coordinates: coordinates,
+                coordinates: {long: +coordinates.long,
+                    lat: +coordinates.lat},
                 company: company
             }, (err) => {cb(err, db);});
         },
@@ -58,6 +59,7 @@ function addGoods(retailer, _goods, callback) {
     let db = undefined;
     if (goods.length == 0) callback('goods array is empty');
     goods.forEach(good => {
+        good.price = +good.price;
         good.retailerID = retailer._id;
     });
     async.waterfall([

@@ -6,7 +6,7 @@ function register(req, res) {
     if (!req.query.company || !req.query.coordinates || !req.query.username || !req.query.password) {
         return res.json({error: 'missing username, password, coordinates or company name', result: false});
     }
-    if (!req.query.coordinates.long || !req.query.coordinates.latt) {
+    if (!req.query.coordinates.long || !req.query.coordinates.lat) {
         return res.json({error: 'incorrect coordinates format', result: false});
     }
     model.getUserName(req.query.username, (err, username) => {
