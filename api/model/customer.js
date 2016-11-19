@@ -37,7 +37,7 @@ function getGoods(companyID, callback) {
         (_db, cb) => {
             db = _db;
             let usersCollection = db.collection('goods');
-            usersCollection.findOne({'retailerID' : new mongo.ObjectID(companyID)}, cb);
+            usersCollection.find({'retailerID' : new mongo.ObjectID(companyID)}).toArray(cb);
         }
     ], (err, goods) => {
         if (!db) return callback(err);

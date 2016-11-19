@@ -25,6 +25,20 @@ function register(req, res) {
     });
 }
 
+function auth(req, res) {
+    if (!req.query.username || !req.query.password) {
+        return res.json({error: 'missing username or password', result: false});
+    }
+    model.getRetailer(req.query.username, req.query.password, (err, retailer) => {
+        if (err){
+            console.log(err);
+            return res.json({error: 'DB error', result: false});
+        }
+        if (!retailer) return res.json({error: 'invalid username or password', result: false});
+        return res.json({error: false, result: retailer});
+    });
+}
+
 function addGoods(req, res) {
     if (!req.query.goods || !req.query.username || !req.query.password) {
         return res.json({error: 'missing username, password or goods', result: false});
@@ -90,5 +104,6 @@ module.exports = {
     register,
     addGoods,
     accomplishOrder,
-    getOrders
+    getOrders,
+    auth
 };
