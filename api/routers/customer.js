@@ -51,6 +51,7 @@ function order(req, res) {
     async.waterfall([
         cb => yamoney.getToken(req.query.userID, cb),
         (token, cb) => {
+            console.log('get token', token);
             if (!token) {
                 let aurhUrl = yandexMoneySDK.Wallet
                     .buildObtainTokenUrl(config.yamoney.app_id, config.yamoney.redirect_uri+'?userID='+req.query.userID,
@@ -62,6 +63,7 @@ function order(req, res) {
             let retailerID = new mongo.ObjectID(req.query.goods[0].retailerID);
             retailers.getRetailerInfo(retailerID, cb);
         }, (retailer, cb) => {
+            console.log('retailer info:', retailer);
             if (!retailer) {
                 res.json({error: 'Incorrect retailer data', result: false});
                 return cb(new Error('stop'));
@@ -75,8 +77,10 @@ function order(req, res) {
                 "message": "have a nice day",
                 "label": "Nearstore service"
             };
+            console.log('options to pay:', options);
             api.requestPayment(options, cb);
         }, (data, cb) => {
+            console.log('payment result:', data);
             if(data.status !== "success") return cb(new Error(data.status));
             const request_id = data.request_id;
             api.processPayment({request_id}, cb);
