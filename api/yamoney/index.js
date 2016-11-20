@@ -16,7 +16,7 @@ function redirectHandler(req, res) {
                 console.log('getAccessToken err', err&&err.message||result.error);
                 return res.send('Error: '+(err&&err.message||result.error));
             }
-            yamoney.setToken(req.query.instance_id, result,
+            yamoney.setToken(req.query.userID, result,
                 () => res.send('Thanks! You can return to your order in Telegram'));
         });
 }

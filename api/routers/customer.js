@@ -53,8 +53,8 @@ function order(req, res) {
         (token, cb) => {
             if (!token) {
                 let aurhUrl = yandexMoneySDK.Wallet
-                    .buildObtainTokenUrl(config.yamoney.app_id, config.yamoney.redirect_uri, ['payment-p2p'])
-                    + '&instance_name=' + req.query.userID;
+                    .buildObtainTokenUrl(config.yamoney.app_id, config.yamoney.redirect_uri+'?userID='+req.query.userID,
+                    ['payment-p2p']) + '&instance_name=' + req.query.userID;
                 res.json({error: false, result: {authUrl: aurhUrl}});
                 return cb(new Error('stop'));
             }
