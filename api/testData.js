@@ -4,12 +4,14 @@ function handler(err) {
     if (err) return console.log(err);
 }
 
-retailerModel.addCompany('teremok', 'teremok', {long: 30.0, lat: 60.0}, 'TEREMOK', handler);
-retailerModel.addCompany('pirozhkoviyDvorik', 'pd2016', {long: 30.386, lat: 59.984}, 'Pirozhkoviy dvorik', handler);
-retailerModel.addCompany('subway', 'super-sub', {long: 30.385, lat: 59.982}, 'Subway', handler);
-retailerModel.getRetailer('teremok', 'teremok', teremokHandler);
-retailerModel.getRetailer('pirozhkoviyDvorik', 'pd2016', pdHandler);
-retailerModel.getRetailer('subway', 'super-sub', subwayHandler);
+retailerModel.addCompany('teremok', 'teremok', {long: 30.0, lat: 60.0}, 'TEREMOK', 410011398386747, handler);
+retailerModel.addCompany('pirozhkoviyDvorik', 'pd2016', {long: 30.386, lat: 59.984}, 'Pirozhkoviy dvorik', 410011398386747, handler);
+retailerModel.addCompany('subway', 'super-sub', {long: 30.385, lat: 59.982}, 'Subway', 410011398386747, handler);
+setTimeout(()=>{
+    retailerModel.getRetailer('teremok', 'teremok', teremokHandler);
+    retailerModel.getRetailer('pirozhkoviyDvorik', 'pd2016', pdHandler);
+    retailerModel.getRetailer('subway', 'super-sub', subwayHandler);
+}, 100);
 
 function teremokHandler(err, retailer) {
     if (err) return console.log(err);

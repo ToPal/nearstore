@@ -6,6 +6,7 @@ angular.module('nsApp', ['ngCookies'])
 .controller('authController', ['$scope', '$cookies', '$http', function($scope, $cookies, $http) {
     $scope.status = '';
     $scope.process = 'login';
+    $scope.yaAccount = '';
     var authData = $cookies.getObject('authData');
     if (authData&&authData.login&&authData.pass&&authData.uid) {
         $scope.login = authData.login;
@@ -41,6 +42,7 @@ angular.module('nsApp', ['ngCookies'])
         $scope.pass = '';
         $scope.uid = '';
         $scope.company = '';
+        $scope.yaAccount = '';
     };
     $scope.setProcess = function(process) {
         $scope.process = process;
@@ -60,7 +62,8 @@ angular.module('nsApp', ['ngCookies'])
             username: $scope.login,
             password: $scope.pass,
             company: $scope.company,
-            coordinates: coordinates
+            coordinates: coordinates,
+            yaAccount: $scope.yaAccount
         }).then(auth_complete);
     };
 }]);

@@ -25,6 +25,7 @@
         <button ng-click="setProcess('register')" ng-if="process=='login'">Register</button>
         <div ng-if="process=='register'">
             <label for="company">Company: <input id="company" type="text" ng-model="$parent.$parent.company"></label><br>
+            <label for="yaAccount">Yandex.Money: <input id="yaAccount" type="text" ng-model="$parent.$parent.yaAccount"></label><br>
             <div class="ymaps">
                 <div id="map"></div>
                 <div id="marker"></div>
