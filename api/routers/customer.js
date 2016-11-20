@@ -59,7 +59,7 @@ function order(req, res) {
                 res.json({error: false, result: {authUrl: aurhUrl}});
                 return cb(new Error('stop'));
             }
-            api = new yandexMoneySDK.Wallet(token);
+            api = new yandexMoneySDK.Wallet(token.token);
             let retailerID = new mongo.ObjectID(req.query.goods[0].retailerID);
             retailers.getRetailerInfo(retailerID, cb);
         }, (retailer, cb) => {
