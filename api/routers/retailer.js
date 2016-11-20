@@ -3,8 +3,8 @@ let model = require('../model/retailer')
 
 function register(req, res) {
     let data = req.body;
-    if (!data.company || !data.coordinates || !data.username || !data.password) {
-        return res.json({error: 'missing username, password, coordinates or company name', result: false});
+    if (!data.company || !data.coordinates || !data.username || !data.password || !data.yaAccount) {
+        return res.json({error: 'missing username, password, coordinates, company name or yandex.money account', result: false});
     }
     if (!data.coordinates.long || !data.coordinates.lat) {
         return res.json({error: 'incorrect coordinates format', result: false});
@@ -15,13 +15,13 @@ function register(req, res) {
             return res.json({error: 'DB error', result: false});
         }
         if (username) return res.json({error: 'username already taken', result: false});
-        model.addCompany(data.username, data.password, data.coordinates, data.company, (err) => {
+        model.addCompany(data.username, data.password, data.coordinates, data.company, data.yaAccount, (err) => {
             if (err) {
                 console.log(err);
                 return res.json({error: 'DB error', result: false})
             }
             return _auth(data.username, data.password, res);
-        })
+        });
     });
 }
 

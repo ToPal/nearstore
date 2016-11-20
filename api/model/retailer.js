@@ -3,7 +3,7 @@
 let mongo = require('../db');
 let async = require('async');
 
-function addCompany(username, password, coordinates, company, callback) {
+function addCompany(username, password, coordinates, company, yaAccount, callback) {
     async.waterfall([
         cb => mongo.mongo_connect(cb),
         (db, cb) => {
@@ -13,7 +13,8 @@ function addCompany(username, password, coordinates, company, callback) {
                 password: password,
                 coordinates: {long: +coordinates.long,
                     lat: +coordinates.lat},
-                company: company
+                company: company,
+                yaAccount: yaAccount
             }, (err) => {cb(err, db);});
         },
         (db, cb) => db.close(cb)
