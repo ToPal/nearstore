@@ -78,7 +78,7 @@ function order(req, res) {
             };
             console.log('options to pay:', options);
             api.requestPayment(options, cb);
-        }, function(data, cb) {
+        }, function(data, temp, cb) {
             console.log('payment result:', arguments);
             if(data.status !== "success") return cb(new Error(data.status));
             const request_id = data.request_id;
