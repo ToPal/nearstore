@@ -63,7 +63,7 @@ function subwayHandler(err, retailer) {
     }, {
         price : 0.80,
         name: 'Капучино',
-        desc: 'Всегда свежий',
+        desc: 'Всегда вкусный',
         retailerID : retailer._id
     }, {
         price : 0.98,
