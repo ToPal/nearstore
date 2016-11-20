@@ -115,9 +115,8 @@ angular.module('nsApp', ['ngCookies'])
             });
         });
     };
-    $interval($scope.getOrders, 5000);
-    $interval($scope.getGoods, 60000);
-    $scope.getOrders();
+    $interval($scope.getOrders, 1000);
+    $interval($scope.getGoods, 5000);
     $scope.acceptOrder = function (order) {
         $http.get(nearstore_api + '/accomplishOrder', {params: {
             orderID: order._id,
