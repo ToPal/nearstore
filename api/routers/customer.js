@@ -83,7 +83,7 @@ function order(req, res) {
             if(data.status !== "success") return cb(new Error(data.status));
             const request_id = data.request_id;
             api.processPayment({request_id}, cb);
-        }, function (cb) {
+        }, function (res, temp, cb) {
             console.log('processPaymentFinished', arguments);
             model.order(req.query.goods, cb);
         }, (pin, cb) => {
