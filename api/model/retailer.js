@@ -55,6 +55,23 @@ function getRetailer(username, password, callback) {
     });
 }
 
+function getRetailerInfo(retailerID, callback) {
+    let db = null;
+    async.waterfall([
+        cb => mongo.mongo_connect(cb),
+        (_db, cb) => {
+            db = _db;
+            let usersCollection = db.collection('retailers');
+            usersCollection.findOne({_id: retailerID}, cb);
+        }
+    ], (err, object) => {
+        if (!db) return callback(err);
+        db.close(() => {
+            callback(err, (object) ? object : undefined)
+        });
+    });
+}
+
 function addGoods(retailer, _goods, callback) {
     let goods = Array.isArray(_goods) ? _goods : [_goods];
     let db = undefined;
@@ -116,5 +133,6 @@ module.exports = {
     getRetailer,
     addGoods,
     getOrders,
-    accomplishOrder
-}
+    accomplishOrder,
+    getRetailerInfo
+};

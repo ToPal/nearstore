@@ -116,7 +116,8 @@ function confirmOrder($, order){
 
 function performOrder($, order) {
     apiRequest('order', {
-        goods: order.goods
+        goods: order.goods,
+        userID: $.userId
     }, (err, result) => {
         if (err) {
             console.log(err);
@@ -124,6 +125,10 @@ function performOrder($, order) {
         }
         if (result.error) {
             return $.sendMessage('Error: ' + result.error);
+        }
+        if (result.authUrl) {
+            return $.sendMessage('To finish your order you should authorize in Yandex.Money. Please, do it via link '+
+                'below and after that confirm your order again\n'+result.authUrl);
         }
         $.sendMessage(`Your pin code is ${result.result}\nCome back again!`);
     });

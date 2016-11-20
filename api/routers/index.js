@@ -2,6 +2,7 @@
 
 const retailer = require('./retailer');
 const customer = require('./customer');
+const yamoney = require('../yamoney');
 
 module.exports = function(app) {
     app.post('/register', retailer.register);
@@ -12,4 +13,5 @@ module.exports = function(app) {
     app.get('/find', customer.find);
     app.get('/getGoods', customer.getGoods);
     app.get('/order', customer.order);
+    app.get('/redirect', yamoney.redirectHandler)
 };

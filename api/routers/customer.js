@@ -1,6 +1,12 @@
 'use strict';
 
 const model = require('../model/customer');
+const retailers = require('../model/retailer');
+const yamoney = require('../model/yamoney');
+const config = require('../config.json');
+const async = require('async');
+const mongo = require('../db');
+const yandexMoneySDK = require("yandex-money-sdk");
 
 function find(req, res) {
     if (!req.query.coordinates){
@@ -34,12 +40,56 @@ function getGoods(req, res) {
 }
 
 function order(req, res) {
-    if (!req.query.goods){
-        return res.json({error: 'missing goods', result: false});
+    console.log('order', req.query);
+    if (!req.query.goods || !req.query.userID){
+        return res.json({error: 'missing parameters', result: false});
     }
-    model.order(req.query.goods, (err, pin) => {
-        if (err) res.json({error: 'DB error', result: false});
-        return res.json({error: false, result: pin});
+    if (!Array.isArray(req.query.goods) || !req.query.goods.length) {
+        return res.json({error: 'No goods to order', result: false});
+    }
+    let api;
+    async.waterfall([
+        cb => yamoney.getToken(req.query.userID, cb),
+        (token, cb) => {
+            if (!token) {
+                let aurhUrl = yandexMoneySDK.Wallet
+                    .buildObtainTokenUrl(config.yamoney.app_id, config.yamoney.redirect_uri, ['payment-p2p'])
+                    + '&instance_name=' + req.query.userID;
+                res.json({error: false, result: {authUrl: aurhUrl}});
+                return cb(new Error('stop'));
+            }
+            api = new yandexMoneySDK.Wallet(token);
+            let retailerID = new mongo.ObjectID(req.query.goods[0].retailerID);
+            retailers.getRetailerInfo(retailerID, cb);
+        }, (retailer, cb) => {
+            if (!retailer) {
+                res.json({error: 'Incorrect retailer data', result: false});
+                return cb(new Error('stop'));
+            }
+            let sum = req.query.goods.reduce((a, x)=>a + x.price, 0);
+            let options = {
+                "pattern_id": "p2p",
+                "to": retailer.yaAccount,
+                "amount_due": sum,
+                "comment": "payment for order",
+                "message": "have a nice day",
+                "label": "Nearstore service"
+            };
+            api.requestPayment(options, cb);
+        }, (data, cb) => {
+            if(data.status !== "success") return cb(new Error(data.status));
+            const request_id = data.request_id;
+            api.processPayment({request_id}, cb);
+        }, function (cb) {
+            console.log('processPaymentFinished', arguments);
+            model.order(req.query.goods, cb);
+        }, (pin, cb) => {
+            res.json({error: false, result: pin});
+            cb(null);
+        }
+    ], function(err) {
+        if (err&&err.message&&err.message!='stop')
+            return res.json({error: err.message, result: false});
     });
 }
 

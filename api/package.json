@@ -12,6 +12,8 @@
     "async": "^2.1.2",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "mongodb": "^2.2.11"
+    "mongodb": "^2.2.11",
+    "request": "^2.79.0",
+    "yandex-money-sdk": "^0.1.6"
   }
 }
