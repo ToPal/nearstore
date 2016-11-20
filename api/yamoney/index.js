@@ -11,7 +11,7 @@ function redirectHandler(req, res) {
         return res.status(500).json({error: req.query.error});
     }
     yandexMoney.Wallet.getAccessToken(config.yamoney.app_id, req.query.code,
-        config.yamoney.redirect_uri, function (err, token) {
+        config.yamoney.redirect_uri, '', function (err, token) {
             if (err) return console.log('getAccessToken err', err);
             yamoney.setToken(req.query.instance_id, token, () => res.json({}));
         });
