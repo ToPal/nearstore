@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="css/ymaps.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
     <script src="js/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"></script>
     <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
@@ -15,16 +16,15 @@
 <h1>Hop-hey-lalaley go and buy some celery</h1>
 <div>
     <div ng-if="uid">
-        <p>{{company}}</p>
-        <button ng-click="logout()">Logout</button>
+        <p class="company"><span>{{company}}</span> <button ng-click="logout()">Logout</button></p>
     </div>
     <div ng-if="!uid">
-        <label for="login">Login: <input id="login" type="text" ng-model="$parent.login"></label><br>
-        <label for="pass">Password: <input id="pass" type="text" ng-model="$parent.pass"></label>
-        <button ng-click="auth()" ng-if="process=='login'">Login</button>
-        <button ng-click="setProcess('register')" ng-if="process=='login'">Register</button>
+        <label for="login">Login: <input id="login" type="text" ng-model="$parent.login"></label>
+        <label for="pass">Password: <input id="pass" type="text" ng-model="$parent.pass"></label><br>
+        <button class="auth" ng-click="auth()" ng-if="process=='login'">Login</button>
+        <button class="register" ng-click="setProcess('register')" ng-if="process=='login'">Register</button>
         <div ng-if="process=='register'">
-            <label for="company">Company: <input id="company" type="text" ng-model="$parent.$parent.company"></label><br>
+            <label for="company">Company: <input id="company" type="text" ng-model="$parent.$parent.company"></label>
             <label for="yaAccount">Yandex.Money: <input id="yaAccount" type="text" ng-model="$parent.$parent.yaAccount"></label><br>
             <div class="ymaps">
                 <div id="map"></div>
@@ -37,17 +37,15 @@
 </div>
 <div ng-if="uid">
     <table>
-        <tr>
-            <td>Complete</td>
+        <tr class="header">
             <td>Order</td>
             <td>PIN</td>
-            <td>Accept</td>
+            <td>Finish</td>
         </tr>
-        <tr ng-repeat="order in orders">
-            <td>{{order.complete}}</td>
-            <td><p ng-repeat="good in order.goods track by $index">{{good}}</p></td>
-            <td>{{order.pin}}</td>
-            <td><button ng-click="acceptOrder(order)" ng-if="!order.complete">Accept</button></td>
+        <tr ng-repeat="order in orders" class="order" ng-if="!order.complete">
+            <td class="goods"><p ng-repeat="good in order.goods track by $index">{{good}}</p></td>
+            <td class="pin">{{order.pin}}</td>
+            <td><button ng-click="acceptOrder(order)" ng-if="!order.complete">Finish</button></td>
         </tr>
     </table>
 </div>

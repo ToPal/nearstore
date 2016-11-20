@@ -1,0 +1,68 @@
+h1 {
+    text-align: center;
+}
+.company {
+    text-align: right;
+}
+.company span {
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+p.company button {
+    margin-left: 5%;
+}
+table {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+}
+tr {
+    background-color: #CDDC39;
+}
+.header {
+    background-color: #ffde00;
+}
+.header td {
+    border: 3px solid #97a52b;
+}
+td {
+    padding: 5px;
+    border-radius: 10px;
+}
+.goods {
+    text-align: justify;
+    padding-left: 20px;
+}
+button {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    border: 3px solid black;
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px gray;
+}
+.pin {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+input {
+    padding: 5px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+}
+label {
+    margin-right: 3em;
+    display: inline-block;
+    width: 25em;
+    text-align: right;
+}
+.auth {
+    margin-left: 43%;
+}
+.register {
+    margin-left: 2em;
+}
