@@ -4,7 +4,7 @@ const retailer = require('./retailer');
 const customer = require('./customer');
 
 module.exports = function(app) {
-    app.get('/register', retailer.register);
+    app.post('/register', retailer.register);
     app.get('/addGoods', retailer.addGoods);
     app.get('/getOrders', retailer.getOrders);
     app.get('/accomplishOrder', retailer.accomplishOrder);

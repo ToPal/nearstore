@@ -2,34 +2,34 @@
 let model = require('../model/retailer')
 
 function register(req, res) {
-    console.log(req.query);
-    if (!req.query.company || !req.query.coordinates || !req.query.username || !req.query.password) {
+    let data = req.body;
+    if (!data.company || !data.coordinates || !data.username || !data.password) {
         return res.json({error: 'missing username, password, coordinates or company name', result: false});
     }
-    if (!req.query.coordinates.long || !req.query.coordinates.lat) {
+    if (!data.coordinates.long || !data.coordinates.lat) {
+        console.log(typeof data.coordinates);
+        if (!data.coordinates.long) console.log('incorrect long', data.coordinates.long);
+        if (!data.coordinates.lat) console.log('incorrect lat', data.coordinates.lat);
         return res.json({error: 'incorrect coordinates format', result: false});
     }
-    model.getUserName(req.query.username, (err, username) => {
+    model.getUserName(data.username, (err, username) => {
         if (err) {
             console.log(err);
             return res.json({error: 'DB error', result: false});
         }
         if (username) return res.json({error: 'username already taken', result: false});
-        model.addCompany(req.query.username, req.query.password, req.query.coordinates, req.query.company, (err) => {
+        model.addCompany(data.username, data.password, data.coordinates, data.company, (err) => {
             if (err) {
                 console.log(err);
                 return res.json({error: 'DB error', result: false})
             }
-            return auth(req, res);
+            return _auth(data.username, data.password, res);
         })
     });
 }
 
-function auth(req, res) {
-    if (!req.query.username || !req.query.password) {
-        return res.json({error: 'missing username or password', result: false});
-    }
-    model.getRetailer(req.query.username, req.query.password, (err, retailer) => {
+function _auth(username, password, res) {
+    model.getRetailer(username, password, (err, retailer) => {
         if (err){
             console.log(err);
             return res.json({error: 'DB error', result: false});
@@ -37,6 +37,13 @@ function auth(req, res) {
         if (!retailer) return res.json({error: 'invalid username or password', result: false});
         return res.json({error: false, result: retailer});
     });
+}
+
+function auth(req, res) {
+    if (!req.query.username || !req.query.password) {
+        return res.json({error: 'missing username or password', result: false});
+    }
+    return _auth(req.query.username, req.query.password, res);
 }
 
 function addGoods(req, res) {

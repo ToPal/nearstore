@@ -1,0 +1,21 @@
+.ymaps {
+    width: 100%;
+    height: 300px;
+    padding: 0;
+    margin: 0;
+    font-family: Arial;
+}
+#map {
+    width: 100%;
+    height: 60%;
+}
+
+#marker {
+    background-image: url('../img/pin_food.png');
+    width: 33px;
+    height: 36px;
+    position: absolute;
+}
+.header {
+    padding: 5px;
+}
