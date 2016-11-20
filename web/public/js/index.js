@@ -82,7 +82,6 @@ angular.module('nsApp', ['ngCookies'])
                 console.log(res.data.error);
                 return;
             }
-            $scope.goods = {};
             let data = res.data.result;
             data.forEach(good => {
                 $scope.goods[good._id] = good;
