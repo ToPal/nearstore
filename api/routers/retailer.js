@@ -7,9 +7,6 @@ function register(req, res) {
         return res.json({error: 'missing username, password, coordinates or company name', result: false});
     }
     if (!data.coordinates.long || !data.coordinates.lat) {
-        console.log(typeof data.coordinates);
-        if (!data.coordinates.long) console.log('incorrect long', data.coordinates.long);
-        if (!data.coordinates.lat) console.log('incorrect lat', data.coordinates.lat);
         return res.json({error: 'incorrect coordinates format', result: false});
     }
     model.getUserName(data.username, (err, username) => {

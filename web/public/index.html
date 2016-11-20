@@ -11,9 +11,9 @@
     <script src="js/index.js"></script>
     <title>Near store</title>
 </head>
-<body>
+<body ng-controller="rtController">
 <h1>Hop-hey-lalaley go and buy some celery</h1>
-<div ng-controller="authController">
+<div>
     <div ng-if="uid">
         <p>{{company}}</p>
         <button ng-click="logout()">Logout</button>
@@ -33,6 +33,22 @@
         </div>
     </div>
     <div>{{status}}</div>
+</div>
+<div ng-if="uid">
+    <table>
+        <tr>
+            <td>Complete</td>
+            <td>Order</td>
+            <td>PIN</td>
+            <td>Accept</td>
+        </tr>
+        <tr ng-repeat="order in orders">
+            <td>{{order.complete}}</td>
+            <td><p ng-repeat="good in order.goods track by $index">{{good}}</p></td>
+            <td>{{order.pin}}</td>
+            <td><button ng-click="acceptOrder(order)" ng-if="!order.complete">Accept</button></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

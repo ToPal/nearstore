@@ -20,6 +20,7 @@ function find(req, res) {
 }
 
 function getGoods(req, res) {
+    console.log(req.query);
     if (!req.query.companyID){
         return res.json({error: 'missing company ID', result: false});
     }

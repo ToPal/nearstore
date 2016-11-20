@@ -3,7 +3,8 @@
 var nearstore_api = 'http://api.nearstore.ru';
 
 angular.module('nsApp', ['ngCookies'])
-.controller('authController', ['$scope', '$cookies', '$http', function($scope, $cookies, $http) {
+.controller('rtController', ['$scope', '$cookies', '$http', '$interval',
+                            function($scope, $cookies, $http, $interval) {
     $scope.status = '';
     $scope.process = 'login';
     var authData = $cookies.getObject('authData');
@@ -63,4 +64,70 @@ angular.module('nsApp', ['ngCookies'])
             coordinates: coordinates
         }).then(auth_complete);
     };
+    $scope.orders = [];
+    $scope.goods = {};
+
+    $scope.getGoods = function() {
+        if (!$scope.uid){
+            return;
+        }
+        $http.get(nearstore_api + '/getGoods', {params: {
+            companyID: $scope.uid
+        }}).then((res) => {
+            if (res.data.error) {
+                $scope.status = 'error occured!';
+                console.log(res.data.error);
+                return;
+            }
+            $scope.goods = {};
+            let data = res.data.result;
+            data.forEach(good => {
+                $scope.goods[good._id] = good;
+            });
+        });
+    };
+    $scope.getGoods();
+
+    $scope.getOrders = function() {
+        if (!$scope.login || !$scope.pass || !$scope.uid) {
+            return;
+        }
+        $http.get(nearstore_api + '/getOrders', {params: {
+            username: $scope.login,
+            password: $scope.pass,
+        }}).then((res) => {
+            if (res.data.error) {
+                $scope.status = 'error occured!';
+                console.log(res.data.error);
+                return;
+            }
+            let data = res.data.result;
+            while ($scope.orders.length > 0) $scope.orders.pop();
+            data.forEach(order => {
+                order.goods = order.goods.map(good => {
+                    let _good = $scope.goods[good];
+                    if (_good) return `₽${_good.price} ${_good.name} (${_good.desc})`;
+                    else return `No data for ${good}`;
+                });
+                $scope.orders.push(order);
+            });
+        });
+    };
+    $interval($scope.getOrders, 5000);
+    $interval($scope.getGoods, 60000);
+    $scope.getOrders();
+    $scope.acceptOrder = function (order) {
+        $http.get(nearstore_api + '/accomplishOrder', {params: {
+            orderID: order._id,
+            username: $scope.login,
+            password: $scope.pass,
+        }}).then((res) => {
+            if (res.data.error) {
+                $scope.status = 'error occured!';
+                console.log(res.data.error);
+                return;
+            }
+            $scope.getOrders();
+        });
+    }
 }]);

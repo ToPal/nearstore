@@ -54,7 +54,7 @@ function order(_goods, callback) {
     }
     let order = {};
     order.retailerID = new mongo.ObjectID(goods[0].retailerID);
-    order.goods = goods.map(g => new mongo.ObjectID(g.goodID));
+    order.goods = goods.map(g => new mongo.ObjectID(g._id));
     order.pin = Math.floor(Math.random() * 10000);
     let db = null;
     async.waterfall([
