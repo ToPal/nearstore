@@ -14,7 +14,7 @@ function redirectHandler(req, res) {
         config.yamoney.redirect_uri, '', function (err, result) {
             if (err||result.error) {
                 console.log('getAccessToken err', err&&err.message||result.error);
-                return res.send('Error: '+err&&err.message||result.error);
+                return res.send('Error: '+(err&&err.message||result.error));
             }
             yamoney.setToken(req.query.instance_id, result,
                 () => res.send('Thanks! You can return to your order in Telegram'));
