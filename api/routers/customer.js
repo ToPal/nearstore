@@ -72,7 +72,7 @@ function order(req, res) {
             let options = {
                 "pattern_id": "p2p",
                 "to": ''+retailer.yaAccount,
-                "amount_due": sum,
+                "amount_due": sum.toFixed(2),
                 "comment": "payment for order",
                 "message": "have a nice day"
             };
