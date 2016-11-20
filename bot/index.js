@@ -5,6 +5,7 @@ const config = require('./config.json');
 const Controller = require('./router/Controller');
 
 const controller = new Controller();
-const tg = new Telegram.Telegram(config.bot_token);
+const tg = new Telegram.Telegram(config.bot_token, {
+    webAdmin: { port: 7778,host: 'localhost'} });
 
 tg.router.any(controller);

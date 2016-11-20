@@ -20,6 +20,7 @@ class Controller extends TelegramBaseController {
                 lat: location.latitude
             }
         }, (err, result) => {
+            console.log(result);
             if (err) {
                 console.log(err);
                 return $.sendMessage('Server error occured. Please try again later');
@@ -33,7 +34,7 @@ class Controller extends TelegramBaseController {
 }
 
 function apiFindResponse($, result) {
-    if (result.length == 0) return $.sendMessage("No retailers found");
+    if (result&&result.length == 0) return $.sendMessage("No retailers found");
     let queue = [() => $.sendMessage('Following retailers found:')];
     let menuLayout = [];
     result.forEach(r => {
