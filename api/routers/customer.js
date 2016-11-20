@@ -71,11 +71,10 @@ function order(req, res) {
             let sum = req.query.goods.reduce((a, x)=>a + parseFloat(x.price), 0);
             let options = {
                 "pattern_id": "p2p",
-                "to": retailer.yaAccount,
+                "to": ''+retailer.yaAccount,
                 "amount_due": sum,
                 "comment": "payment for order",
-                "message": "have a nice day",
-                "label": "Nearstore service"
+                "message": "have a nice day"
             };
             console.log('options to pay:', options);
             api.requestPayment(options, cb);
