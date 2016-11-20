@@ -1,7 +1,6 @@
 "use strict";
 
-// var nearstore_api = 'http://api.nearstore.ru';
-var nearstore_api = 'http://localhost:3071';
+var nearstore_api = 'http://api.nearstore.ru';
 
 angular.module('nsApp', ['ngCookies'])
 .controller('authController', ['$scope', '$cookies', '$http', function($scope, $cookies, $http) {
