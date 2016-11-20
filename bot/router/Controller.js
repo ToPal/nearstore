@@ -127,10 +127,11 @@ function performOrder($, order) {
         if (result.error) {
             return $.sendMessage('Error: ' + result.error);
         }
-        if (result.authUrl) {
+        if (result.result.authUrl) {
             return $.sendMessage('To finish your order you should authorize in Yandex.Money. Please, do it via link '+
-                'below and after that confirm your order again\n'+result.authUrl);
+                'below and after that confirm your order again\n'+result.result.authUrl);
         }
+        console.log(result);
         $.sendMessage(`Your pin code is ${result.result}\nCome back again!`);
     });
 }
@@ -150,7 +151,7 @@ function next(queue) {
 }
 
 function apiRequest(method, params, cb) {
-    request.get(config.api_server + ":" + config.api_port + "/" + method, {
+    request.get(config.api_server + "/" + method, {
         qs: params,
         json: true
     }, (err, response, result) => {

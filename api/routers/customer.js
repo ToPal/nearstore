@@ -66,7 +66,7 @@ function order(req, res) {
                 res.json({error: 'Incorrect retailer data', result: false});
                 return cb(new Error('stop'));
             }
-            let sum = req.query.goods.reduce((a, x)=>a + x.price, 0);
+            let sum = req.query.goods.reduce((a, x)=>a + parseFloat(x.price), 0);
             let options = {
                 "pattern_id": "p2p",
                 "to": retailer.yaAccount,
